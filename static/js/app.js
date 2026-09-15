@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             resultContainer.style.display = "none";
             actionButtons.style.display = "none";
             generateBtn.disabled = true;
-            generateBtn.textContent = "노란 오리가 작성 중입니다...";
+            generateBtn.textContent = "트위티가 작성 중입니다... ⭐";
         } else {
             loadingIndicator.style.display = "none";
             generateBtn.disabled = false;
