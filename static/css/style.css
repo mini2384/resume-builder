@@ -1,11 +1,11 @@
 /* ===================================================
-   🐥 트위티 버드 (Tweety Bird) 공식 캐릭터 테마 CSS
-   - 나무위키 공식 트위티 캐릭터 벡터 일러스트 적용 (/static/img/tweety.svg)
-   - 디즈니/루니툰 애니메이션 감성의 3D 팝아트 & 옐로우/스카이블루 매직 스타일
+   🐥 트위티 버드 & 🫧 퐁퐁 비눗방울(Bubble) 타이틀 테마 CSS
+   - 제목에 도톰하고 둥글둥글한 'Bagel Fat One' 비눗방울 폰트 적용
+   - 반짝이는 햇살 광택과 도톰한 3D 비눗방울 입체 섀도우 효과
    =================================================== */
 
-/* 1. 구글 웹폰트 로드 (동글동글 귀여운 'Jua' & 'Nunito') */
-@import url('https://fonts.googleapis.com/css2?family=Jua&family=Nunito:wght@700;800;900&display=swap');
+/* 1. 비눗방울 특화 초특급 통통 폰트 'Bagel Fat One' & 'Fredoka' 로드 */
+@import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Fredoka:wght@700;900&family=Jua&family=Nunito:wght@700;800;900&display=swap');
 
 * {
     box-sizing: border-box;
@@ -24,7 +24,7 @@ body {
     min-height: 100vh;
 }
 
-/* 🐥 우측 하단: 실제 트위티 캐릭터가 서서 말하는 둥실둥실 응원 뱃지 */
+/* 🐥 우측 하단: 트위티 뱃지 */
 body::after {
     content: "\"내가 봐떠! 합격을 봐떠!\" ⭐";
     position: fixed;
@@ -57,45 +57,65 @@ body::after {
     margin: 0 auto;
 }
 
-/* 🌟 상단 헤더: 디즈니/애니메이션 오프닝 3D 매직 타이틀 */
+/* 🫧 상단 헤더: 도톰하고 동글동글한 3D 비눗방울 타이틀 */
 .header {
     text-align: center;
     margin-bottom: 35px;
 }
 
 .header h1 {
-    font-size: 2.7rem;
-    color: #000000;
+    font-family: 'Bagel Fat One', 'Fredoka', cursive, sans-serif;
+    font-size: 3.1rem;
+    color: #FFEA00;
     font-weight: 900;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     display: inline-flex;
     align-items: center;
     gap: 16px;
-    letter-spacing: 1.5px;
-    /* 트위티 옐로우 + 스카이블루 + 블랙 3중 레이어 3D 입체 그림자 */
+    letter-spacing: 2px;
+    /* 🫧 비눗방울 효과: 상단 하얀 햇살 반사광 + 도톰한 3D 블랙/스카이블루 입체 라인 */
     text-shadow: 
-        2px 2px 0 #FFEA00,
-        4px 4px 0 #FFEA00,
-        6px 6px 0 #38BDF8,
-        8px 8px 0 #000000,
-        10px 10px 15px rgba(0, 0, 0, 0.25);
-    transform: perspective(400px) rotateX(2deg);
+        /* 비눗방울 좌상단 광택 반사광 (Glossy Highlight) */
+        -3px -3px 0 #ffffff,
+        -1px -2px 0 #ffffff,
+        /* 도톰한 360도 검은색 외곽선 */
+        -3px 0 0 #000000,
+        3px 0 0 #000000,
+        0 -3px 0 #000000,
+        0 3px 0 #000000,
+        -3px 3px 0 #000000,
+        3px -3px 0 #000000,
+        3px 3px 0 #000000,
+        /* 비눗방울 하단 영롱한 스카이블루 단면 */
+        0 6px 0 #38BDF8,
+        2px 8px 0 #0284C7,
+        /* 하단 묵직한 3D 그림자 */
+        0 10px 0 #000000,
+        0 14px 22px rgba(56, 189, 248, 0.45);
+    animation: bubbleBob 3s ease-in-out infinite;
 }
 
-/* 헤더 왼쪽 실제 트위티 캐릭터 일러스트 */
+@keyframes bubbleBob {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-7px) scale(1.02); }
+}
+
+/* 헤더 왼쪽 트위티 일러스트 */
 .header h1::before {
     content: "";
     display: inline-block;
-    width: 50px;
-    height: 60px;
+    width: 52px;
+    height: 64px;
     background: url('/static/img/tweety.svg') no-repeat center/contain;
     animation: tweetyWaddle 1.5s ease-in-out infinite alternate;
+    text-shadow: none;
 }
 
 .header h1::after {
-    content: "⭐";
+    content: "🫧";
+    font-size: 2.2rem;
     display: inline-block;
-    animation: starTwinkle 1.5s ease-in-out infinite alternate;
+    animation: starTwinkle 1.8s ease-in-out infinite alternate;
     text-shadow: none;
 }
 
@@ -130,7 +150,7 @@ body::after {
     }
 }
 
-/* 공통 카드 스타일 - 디즈니 카툰 팝업 박스 */
+/* 공통 카드 스타일 */
 .form-card, .result-card {
     background: #ffffff;
     border-radius: 26px;
@@ -140,7 +160,7 @@ body::after {
     position: relative;
 }
 
-/* 카드 제목: 트위티 캐릭터 아이콘과 노란 밑줄 */
+/* 카드 제목 */
 .form-card h2, .result-card h2 {
     font-size: 1.45rem;
     font-weight: 800;
@@ -273,7 +293,7 @@ textarea {
     border: 3px solid #000000;
 }
 
-/* 🐥 트위티 메인 생성 버튼 (트위티 아이콘 탑재) */
+/* 🐥 트위티 메인 생성 버튼 */
 .btn-primary {
     width: 100%;
     background: linear-gradient(180deg, #FFF133 0%, #FFEA00 100%);
@@ -377,7 +397,7 @@ textarea {
     color: #b91c1c;
 }
 
-/* 🐥 트위티 로딩 스피너 - 중앙에 실제 트위티가 등장 */
+/* 🐥 트위티 로딩 스피너 */
 .loading-state {
     text-align: center;
     padding: 60px 20px;
@@ -430,7 +450,7 @@ textarea {
     font-size: 1rem;
 }
 
-/* 🐥 초기 안내 상태 - 나무위키 트위티 캐릭터가 서서 반겨줌 */
+/* 🐥 초기 안내 상태 */
 .empty-state {
     text-align: center;
     padding: 60px 20px;
