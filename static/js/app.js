@@ -103,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             await navigator.clipboard.writeText(currentRawMarkdown);
             const originalText = copyBtn.textContent;
-            copyBtn.textContent = "✅ 복사 완료!";
+            copyBtn.textContent = "복사 완료! 🐥";
             copyBtn.style.backgroundColor = "#c6f6d5";
             copyBtn.style.color = "#22543d";
 
@@ -143,11 +143,11 @@ document.addEventListener("DOMContentLoaded", () => {
             resultContainer.style.display = "none";
             actionButtons.style.display = "none";
             generateBtn.disabled = true;
-            generateBtn.textContent = "⏳ Gemini AI가 작성 중입니다...";
+            generateBtn.textContent = "노란 오리가 작성 중입니다...";
         } else {
             loadingIndicator.style.display = "none";
             generateBtn.disabled = false;
-            generateBtn.textContent = "✨ AI 이력서 & 포트폴리오 생성하기";
+            generateBtn.textContent = "AI 이력서 & 포트폴리오 생성하기";
         }
     }
 

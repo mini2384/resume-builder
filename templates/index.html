@@ -5,22 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume & Portfolio Builder</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <!-- 마크다운 문법을 깔끔한 웹 화면으로 변환해주는 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <!-- 헤더 영역 -->
+        <!-- 상단 헤더 (기타 아이콘 제거, 노란 오리 테마) -->
         <header class="header">
-            <h1>🚀 AI Resume & Portfolio Builder</h1>
+            <h1>AI Resume & Portfolio Builder</h1>
             <p class="subtitle">당신의 경력과 프로젝트를 입력하면 Gemini AI가 채용 합격률을 높이는 최적의 이력서와 포트폴리오를 작성해 드립니다.</p>
         </header>
 
-        <!-- 메인 콘텐츠 영역 (2컬럼 레이아웃: 입력 폼 & 결과 영역) -->
+        <!-- 메인 콘텐츠 영역 -->
         <main class="main-content">
             <!-- 왼쪽: 정보 입력 폼 -->
             <section class="form-card">
-                <h2>📝 지원자 정보 입력</h2>
+                <h2>지원자 정보 입력</h2>
                 <form id="resumeForm">
                     <!-- 1. 이름 -->
                     <div class="form-group">
@@ -34,7 +33,7 @@
                         <input type="text" id="jobTitle" name="job_title" placeholder="예: 백엔드 개발자 / 프로덕트 매니저" required>
                     </div>
 
-                    <!-- 3. 프롬프트 모드 선택 (Prompt A vs Prompt B) -->
+                    <!-- 3. 프롬프트 모드 선택 -->
                     <div class="form-group">
                         <label>작성 스타일 모드 선택 <span class="required">*</span></label>
                         <div class="radio-group">
@@ -80,7 +79,7 @@
 
                     <!-- 생성 버튼 -->
                     <button type="submit" id="generateBtn" class="btn btn-primary">
-                        ✨ AI 이력서 & 포트폴리오 생성하기
+                        AI 이력서 & 포트폴리오 생성하기
                     </button>
                 </form>
             </section>
@@ -88,10 +87,10 @@
             <!-- 오른쪽: 생성 결과 및 다운로드 영역 -->
             <section class="result-card">
                 <div class="result-header">
-                    <h2>📄 AI 생성 결과</h2>
+                    <h2>AI 생성 결과</h2>
                     <div class="result-actions" id="actionButtons" style="display: none;">
-                        <button type="button" id="copyBtn" class="btn btn-secondary">📋 결과 복사</button>
-                        <button type="button" id="downloadBtn" class="btn btn-outline">💾 Markdown 다운로드</button>
+                        <button type="button" id="copyBtn" class="btn btn-secondary">결과 복사</button>
+                        <button type="button" id="downloadBtn" class="btn btn-outline">Markdown 다운로드</button>
                     </div>
                 </div>
 
@@ -101,13 +100,13 @@
                 <!-- 로딩 표시기 -->
                 <div id="loadingIndicator" class="loading-state" style="display: none;">
                     <div class="spinner"></div>
-                    <p class="loading-text">Gemini AI가 이력서와 포트폴리오를 정성껏 작성 중입니다...</p>
+                    <p class="loading-text">노란 오리가 정성껏 작성 중입니다...</p>
                     <small class="loading-subtext">약 5~10초 정도 소요될 수 있습니다. 잠시만 기다려 주세요.</small>
                 </div>
 
                 <!-- 초기 안내 문구 -->
                 <div id="emptyState" class="empty-state">
-                    <div class="empty-icon">📝</div>
+                    <div class="empty-icon"></div>
                     <p>왼쪽 양식에 정보를 입력하고 <strong>[AI 이력서 & 포트폴리오 생성하기]</strong> 버튼을 누르면 이곳에 완성된 초안이 나타납니다.</p>
                 </div>
 
@@ -117,7 +116,6 @@
         </main>
     </div>
 
-    <!-- 프론트엔드 제어 스크립트 -->
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>
