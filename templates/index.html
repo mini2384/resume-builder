@@ -9,45 +9,68 @@
 </head>
 <body>
     <div class="container">
-        <!-- 상단 헤더 (기타 아이콘 제거, 노란 오리 테마) -->
+        <!-- 📜 상단 헤더: 양피지 두루마리 배너 & 화가/학사 트위티 -->
         <header class="header">
-            <h1>AI Resume & Portfolio Builder</h1>
+            <div class="header-banner-wrap">
+                <!-- 왼쪽 화가 모자 트위티 -->
+                <img src="{{ url_for('static', filename='img/reference/tweety_artist.png') }}" class="tweety-scroll-left" alt="화가 트위티">
+                
+                <!-- 중앙 양피지 두루마리 타이틀 -->
+                <div class="scroll-banner">
+                    <h1>AI Resume & Portfolio Builder</h1>
+                </div>
+
+                <!-- 오른쪽 학사모 돋보기 트위티 -->
+                <img src="{{ url_for('static', filename='img/reference/tweety_scholar.png') }}" class="tweety-scroll-right" alt="학사모 트위티">
+            </div>
+            
+            <!-- 부제목 -->
             <p class="subtitle">당신의 경력과 프로젝트를 입력하면 Gemini AI가 채용 합격률을 높이는 최적의 이력서와 포트폴리오를 작성해 드립니다.</p>
         </header>
 
-        <!-- 메인 콘텐츠 영역 -->
+        <!-- 메인 2컬럼 영역 -->
         <main class="main-content">
-            <!-- 왼쪽: 정보 입력 폼 -->
+            <!-- 🎨 왼쪽: 지원자 정보 입력 카드 -->
             <section class="form-card">
-                <h2>지원자 정보 입력</h2>
-                <form id="resumeForm">
+                <div class="card-header-banner">
+                    <img src="{{ url_for('static', filename='img/reference/tweety_artist.png') }}" class="header-icon-tweety" alt="트위티">
+                    <h2>지원자 정보 입력</h2>
+                </div>
+
+                <form id="resumeForm" class="form-body">
                     <!-- 1. 이름 -->
                     <div class="form-group">
-                        <label for="name">이름 <span class="required">*</span></label>
+                        <label for="name">이름 <span class="flower-star">🌸</span></label>
                         <input type="text" id="name" name="name" placeholder="예: 홍길동" required>
                     </div>
 
                     <!-- 2. 지원 직무 -->
                     <div class="form-group">
-                        <label for="jobTitle">지원 직무 <span class="required">*</span></label>
+                        <label for="jobTitle">지원 직무 <span class="flower-star">🌸</span></label>
                         <input type="text" id="jobTitle" name="job_title" placeholder="예: 백엔드 개발자 / 프로덕트 매니저" required>
                     </div>
 
-                    <!-- 3. 프롬프트 모드 선택 -->
+                    <!-- 3. 프롬프트 모드 선택 (둥근 양피지 카드 형태) -->
                     <div class="form-group">
-                        <label>작성 스타일 모드 선택 <span class="required">*</span></label>
+                        <label>작성 스타일 모드 선택 <span class="flower-star">🌸</span></label>
                         <div class="radio-group">
                             <label class="radio-card">
                                 <input type="radio" name="prompt_type" value="A" checked>
                                 <div class="radio-content">
-                                    <strong>Prompt A (일반 모드)</strong>
+                                    <div class="radio-title">
+                                        <span class="icon-scroll">📜</span>
+                                        <strong>Prompt A (일반 모드)</strong>
+                                    </div>
                                     <small>가독성이 좋고 표준적이며 친근한 스타일</small>
                                 </div>
                             </label>
                             <label class="radio-card">
                                 <input type="radio" name="prompt_type" value="B">
                                 <div class="radio-content">
-                                    <strong>Prompt B (전문가 모드)</strong>
+                                    <div class="radio-title">
+                                        <span class="icon-gear">⚙️</span>
+                                        <strong>Prompt B (전문가 모드)</strong>
+                                    </div>
                                     <small>STAR 기법과 정량적 성과 지표를 극대화한 채용 전문가 스타일</small>
                                 </div>
                             </label>
@@ -57,40 +80,48 @@
                     <!-- 4. 톤앤매너 선택 -->
                     <div class="form-group">
                         <label for="tone">문체 톤앤매너 (Tone)</label>
-                        <select id="tone" name="tone">
-                            <option value="전문적이고 신뢰감 있는">전문적이고 신뢰감 있는</option>
-                            <option value="열정적이고 도전적인">열정적이고 도전적인</option>
-                            <option value="간결하고 논리적인">간결하고 논리적인</option>
-                            <option value="친근하고 협력 지향적인">친근하고 협력 지향적인</option>
-                        </select>
+                        <div class="select-wrapper">
+                            <select id="tone" name="tone">
+                                <option value="전문적이고 신뢰감 있는">전문적이고 신뢰감 있는</option>
+                                <option value="열정적이고 도전적인">열정적이고 도전적인</option>
+                                <option value="간결하고 논리적인">간결하고 논리적인</option>
+                                <option value="친근하고 협력 지향적인">친근하고 협력 지향적인</option>
+                            </select>
+                        </div>
                     </div>
 
                     <!-- 5. 경력 사항 -->
                     <div class="form-group">
-                        <label for="experience">주요 경력 사항 <span class="required">*</span></label>
+                        <label for="experience">주요 경력 사항 <span class="flower-star">🌸</span></label>
                         <textarea id="experience" name="experience" rows="4" placeholder="근무 회사, 직책, 주요 담당 업무 및 기간을 적어주세요.&#10;예: ABC 테크 / 주니어 백엔드 개발자 (2024.01 ~ 현재)&#10;- 사내 주문 관리 API 개발 및 DB 쿼리 튜닝" required></textarea>
                     </div>
 
                     <!-- 6. 프로젝트 경험 -->
                     <div class="form-group">
-                        <label for="projects">수행 프로젝트 <span class="required">*</span></label>
+                        <label for="projects">수행 프로젝트 <span class="flower-star">🌸</span></label>
                         <textarea id="projects" name="projects" rows="4" placeholder="참여한 프로젝트 이름, 사용 기술, 해결한 문제, 성과를 적어주세요.&#10;예: AI 기반 커머스 추천 서비스 구축&#10;- 기술: Python, Flask, Redis&#10;- 검색 속도 35% 개선 및 팀 대상 우수 프로젝트 선정" required></textarea>
                     </div>
 
                     <!-- 생성 버튼 -->
                     <button type="submit" id="generateBtn" class="btn btn-primary">
-                        AI 이력서 & 포트폴리오 생성하기
+                        ✨ AI 이력서 & 포트폴리오 생성하기
                     </button>
                 </form>
             </section>
 
-            <!-- 오른쪽: 생성 결과 및 다운로드 영역 -->
+            <!-- 📄 오른쪽: AI 생성 결과 카드 (물결 하늘색 프레임) -->
             <section class="result-card">
-                <div class="result-header">
-                    <h2>AI 생성 결과</h2>
-                    <div class="result-actions" id="actionButtons" style="display: none;">
-                        <button type="button" id="copyBtn" class="btn btn-secondary">결과 복사</button>
-                        <button type="button" id="downloadBtn" class="btn btn-outline">Markdown 다운로드</button>
+                <div class="card-header-banner">
+                    <div class="header-left">
+                        <img src="{{ url_for('static', filename='img/reference/tweety_pass.png') }}" class="header-icon-tweety" alt="트위티">
+                        <h2>AI 생성 결과</h2>
+                    </div>
+                    <div class="header-right">
+                        <div class="result-actions" id="actionButtons" style="display: none;">
+                            <button type="button" id="copyBtn" class="btn btn-secondary">📋 복사</button>
+                            <button type="button" id="downloadBtn" class="btn btn-outline">💾 다운로드</button>
+                        </div>
+                        <span class="pencil-icon">✏️</span>
                     </div>
                 </div>
 
@@ -100,20 +131,30 @@
                 <!-- 로딩 표시기 -->
                 <div id="loadingIndicator" class="loading-state" style="display: none;">
                     <div class="spinner"></div>
-                    <p class="loading-text">트위티가 열심히 작성 중입니다... ⭐</p>
+                    <p class="loading-text">트위티가 합격 이력서를 정성껏 빚는 중입니다... ✨</p>
                     <small class="loading-subtext">약 5~10초 정도 소요될 수 있습니다. 잠시만 기다려 주세요.</small>
                 </div>
 
-                <!-- 초기 안내 문구 -->
+                <!-- 초기 안내 문구: Pass 증서 든 트위티 -->
                 <div id="emptyState" class="empty-state">
-                    <div class="empty-icon"></div>
-                    <p>왼쪽 양식에 정보를 입력하고 <strong>[AI 이력서 & 포트폴리오 생성하기]</strong> 버튼을 누르면 이곳에 완성된 초안이 나타납니다.</p>
+                    <div class="pass-tweety-box">
+                        <img src="{{ url_for('static', filename='img/reference/tweety_pass.png') }}" class="tweety-pass-main" alt="합격증 든 트위티">
+                    </div>
+                    <p class="empty-notice">
+                        왼쪽 양식에 정보를 입력하고 <strong>[AI 이력서 & 포트폴리오<br>생성하기]</strong> 버튼을 누르면<br>이곳에 완성된 초안이 나타납니다.
+                    </p>
+                    <div class="empty-bottom-deco">✏️</div>
                 </div>
 
                 <!-- 실제 생성된 결과물 뷰어 -->
                 <div id="resultContainer" class="markdown-body" style="display: none;"></div>
             </section>
         </main>
+    </div>
+
+    <!-- 🐥 우측 하단 플로팅: 양복 입은 트위티 & 말풍선 위젯 -->
+    <div class="floating-tweety-widget">
+        <img src="{{ url_for('static', filename='img/reference/tweety_suit_bubble.png') }}" alt="내가 봐떠! 합격을 봐떠!">
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
