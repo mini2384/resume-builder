@@ -18,10 +18,11 @@
 4. **철저한 유효성 검사 & 로깅**
    - 프론트엔드와 백엔드 양방향 입력 검증
    - Flask 백엔드 콘솔에 요청 접수, AI 호출 과정, 에러 내역 실시간 로깅
-5. **웹 접근성(Web Accessibility) 최우선 디자인**
-   - **초고대비(14:1) 순수 레몬 옐로우(#FFEA00) 테마**: 시각장애인 및 저시력자가 또렷하게 볼 수 있는 굵은 흑색 테두리와 고대비 적용
-   - **동글동글 귀여운 폰트**: 구글 웹폰트 `Jua`와 `Nunito`를 적용하여 친근한 UI/UX 구현
-   - **3D 입체 타이틀 & 트위티(Tweety) 벡터 그래픽**: 애니메이션 팝아트 감성과 공식 트위티 캐릭터 애니메이션 탑재
+5. **동화책 일러스트 감성 (Disney Fairytale Theme) UI/UX**
+   - **양피지 두루마리 배너 & 3D 볼륨 타이틀**: 고풍스러운 양피지 두루마리 질감과 맑고 화사한 3D 입체 옐로우 타이틀
+   - **오리지널 트위티(Tweety) 일러스트**: 화가, 학사모, 합격증, 양복 트위티의 투명 배경(누끼) 캐릭터 삽화 배치
+   - **색연필 손그림 입력 폼**: 스케치북에 색연필로 그린 듯한 몽글몽글하고 섬세한 1.5px 테두리와 부드러운 크림톤 입력 상자
+   - **구름 말풍선 위젯**: "내가 봐떠! 합격을 봐떠!" 양복 트위티 플로팅 컴포넌트 탑재
 
 ---
 
@@ -33,7 +34,7 @@
 | **AI Model** | Google Gemini API (`gemini-3.5-flash-lite`) | Google 최신 공식 GenAI SDK 연동 |
 | **Frontend** | HTML5, CSS3, Vanilla JavaScript | 비동기 Fetch 통신, 반응형 2단 레이아웃 |
 | **Markdown** | Marked.js | AI 마크다운 텍스트를 실시간 웹 서식으로 렌더링 |
-| **Font** | Google Fonts (`Jua`, `Nunito`) | 동글동글한 가독성 중심 폰트 |
+| **Font** | Google Fonts (`Bagel Fat One`, `Jua`, `Nunito`) | 3D 볼륨 타이틀 및 둥근 가독성 폰트 |
 | **Security** | python-dotenv | 개인 API Key 분리 보관 및 Git 추적 원천 차단 |
 
 ---
@@ -52,11 +53,15 @@ resume-builder/
 │   └── index.html          # 프론트엔드 메인 웹 화면
 └── static/
     ├── css/
-    │   └── style.css       # 트위티 고대비 3D 스타일시트
+    │   └── style.css       # 동화책 일러스트 및 색연필 스타일시트
     ├── js/
     │   └── app.js          # 비동기 통신, 복사, 다운로드 동작 스크립트
     └── img/
-        └── tweety.svg      # 공식 트위티 버드 벡터 그래픽
+        └── reference/      # 투명 배경 트위티 일러스트 캐릭터 세트
+            ├── tweety_artist.png
+            ├── tweety_scholar.png
+            ├── tweety_pass.png
+            └── tweety_suit_bubble.png
 ```
 
 ---
