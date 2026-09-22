@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Resume & Portfolio Builder</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- PWA 설정 -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#FFE61A">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/icon-192.png') }}">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
@@ -158,5 +162,15 @@
     </div>
 
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    <script>
+        // PWA Service Worker 등록
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('PWA Service Worker registered:', reg.scope))
+                    .catch(err => console.log('PWA Service Worker registration failed:', err));
+            });
+        }
+    </script>
 </body>
 </html>

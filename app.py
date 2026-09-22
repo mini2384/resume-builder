@@ -8,8 +8,15 @@ from google.genai import errors
 # .env 파일에서 환경변수 로드
 load_dotenv()
 
+# 프로젝트 루트 디렉토리 (Vercel Serverless 및 로컬 실행 공통 경로 지원)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Flask 애플리케이션 초기화
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    template_folder=os.path.join(BASE_DIR, "templates"),
+    static_folder=os.path.join(BASE_DIR, "static")
+)
 
 # 백엔드 로그 설정 (요청, 응답, 오류 기록)
 logging.basicConfig(
@@ -95,6 +102,22 @@ def build_prompt(name, job_title, experience, projects, tone, prompt_type):
 def index():
     """메인 화면(HTML)을 렌더링합니다."""
     return render_template("index.html")
+
+
+@app.route("/manifest.json")
+def manifest():
+    """PWA 웹 앱 매니페스트를 서빙합니다."""
+    return app.send_static_file("manifest.json")
+
+
+@app.route("/sw.js")
+def service_worker():
+    """PWA 서비스 워커를 루트 스코프 권한과 함께 서빙합니다."""
+    response = app.send_static_file("sw.js")
+    response.headers["Content-Type"] = "application/javascript"
+    response.headers["Service-Worker-Allowed"] = "/"
+    response.headers["Cache-Control"] = "no-cache"
+    return response
 
 
 @app.route("/generate", methods=["POST"])
