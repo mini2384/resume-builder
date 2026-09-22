@@ -71,65 +71,32 @@ body {
 
 /* ===================================================
    📜 상단 양피지 두루마리 배너 (Scroll Banner)
-   - 캐릭터는 건드리지 않고 두루마리 질감/말림축 & 입체 타이틀 구현
+   - 원본 두루마리 일러스트 이미지(투명 배경) 적용
    =================================================== */
 .scroll-banner {
     position: relative;
     z-index: 2;
-    /* 양피지 본체: 고풍스럽고 따뜻한 크림/베이지 두루마리 그라데이션 */
-    background: linear-gradient(180deg, #FFFDF8 0%, #FDF7E7 35%, #F7ECCF 80%, #EEDDB3 100%);
-    /* 두루마리 상단/하단 부드러운 갈색 테두리 */
-    border-top: 3.5px solid #C59654;
-    border-bottom: 3.5px solid #AB7D3C;
-    border-left: 2px solid transparent;
-    border-right: 2px solid transparent;
-    border-radius: 12px;
-    padding: 16px 54px;
-    margin: 0 10px;
-    /* 양쪽 두루마리 축에서 풀려나오는 듯한 입체 안쪽 그림자 + 바닥 그림자 */
-    box-shadow: 
-        inset 20px 0 16px -8px rgba(160, 110, 45, 0.24),
-        inset -20px 0 16px -8px rgba(160, 110, 45, 0.24),
-        inset 0 2px 4px rgba(255, 255, 255, 0.8),
-        inset 0 -2px 4px rgba(150, 100, 40, 0.15),
-        0 12px 28px rgba(150, 105, 45, 0.22);
+    /* 투명 누끼 처리된 양피지 두루마리 이미지 배경 */
+    background: url('../img/scroll_banner.png') no-repeat center center / 100% 100%;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* 두루마리 외곽선을 따라 떨어지는 자연스러운 입체 음영 */
+    filter: drop-shadow(0 12px 25px rgba(120, 80, 25, 0.25));
+    /* 양쪽 두루마리 말림 축 안쪽으로 텍스트 배치 (좌우 패딩 88px) */
+    padding: 26px 88px 24px 88px;
+    margin: 0;
+    min-width: 520px;
+    max-width: 820px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* 두루마리 좌/우 둥근 말림 축 (Parchment Cylinder Rolls) */
+/* 기존 CSS 모조 말림 축 제거 (이미지 자체에 정밀 포함됨) */
 .scroll-banner::before,
 .scroll-banner::after {
-    content: "";
-    position: absolute;
-    top: -12px;
-    bottom: -12px;
-    width: 28px;
-    height: calc(100% + 24px);
-    z-index: 3;
-    pointer-events: none;
-}
-
-/* 왼쪽 말림 축: 3D 원통형 그라데이션 및 볼륨감 */
-.scroll-banner::before {
-    left: -15px;
-    background: linear-gradient(90deg, #BA8742 0%, #EDD29C 25%, #FFF6E0 55%, #D4A360 85%, #A77432 100%);
-    border: 3px solid #8D5E22;
-    border-radius: 16px 8px 8px 16px / 20px 10px 10px 20px;
-    box-shadow: 
-        -4px 6px 14px rgba(100, 65, 20, 0.25),
-        inset 2px 2px 4px rgba(255, 255, 255, 0.6),
-        inset -2px -2px 4px rgba(0, 0, 0, 0.15);
-}
-
-/* 오른쪽 말림 축: 대칭 원통형 그라데이션 및 볼륨감 */
-.scroll-banner::after {
-    right: -15px;
-    background: linear-gradient(90deg, #A77432 0%, #D4A360 15%, #FFF6E0 45%, #EDD29C 75%, #BA8742 100%);
-    border: 3px solid #8D5E22;
-    border-radius: 8px 16px 16px 8px / 10px 20px 20px 10px;
-    box-shadow: 
-        4px 6px 14px rgba(100, 65, 20, 0.25),
-        inset -2px 2px 4px rgba(255, 255, 255, 0.6),
-        inset 2px -2px 4px rgba(0, 0, 0, 0.15);
+    display: none;
 }
 
 /* 3D 통통 볼륨 타이틀 (레퍼런스 이미지 정밀 일치) */
