@@ -98,13 +98,13 @@ body {
     display: none;
 }
 
-/* 대형 단색 타이틀 */
+/* 대형 단색 타이틀 (하단 폰트와 통일 & 검은색) */
 .scroll-banner h1 {
-    font-family: 'Bagel Fat One', 'Fredoka', 'Lilita One', cursive, sans-serif;
+    font-family: 'Jua', 'Nunito', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: clamp(2.8rem, 6.4vw, 5.6rem);
-    color: #1a365d;
+    color: #111111;
     font-weight: 900;
-    letter-spacing: 2px;
+    letter-spacing: 1.5px;
     margin: 0;
     display: inline-block;
     white-space: nowrap;
@@ -112,10 +112,10 @@ body {
     text-shadow: none;
 }
 
-/* 부제목 */
+/* 부제목 (검은색) */
 .subtitle {
     font-size: 1.15rem;
-    color: #1e3a5f;
+    color: #111111;
     font-weight: 800;
     margin-top: 18px;
     text-align: center;
