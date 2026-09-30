@@ -17,9 +17,9 @@
     letter-spacing: 0.3px;
 }
 
-/* 맑고 화사한 파스텔 하늘빛 배경 */
+/* 포근하고 화사한 파스텔 연노랑 테마 배경 */
 body {
-    background: radial-gradient(circle at 50% 20%, #f0f7fd 0%, #d8ebf8 55%, #c8e2f4 100%);
+    background: radial-gradient(circle at 50% 20%, #FFFDF2 0%, #FFF9D8 55%, #FFF0B8 100%);
     color: #2b221a;
     line-height: 1.6;
     padding: 30px 20px 100px 20px;
@@ -98,10 +98,10 @@ body {
     display: none;
 }
 
-/* 2배 확대 깔끔한 단색 타이틀 */
+/* 대형 단색 타이틀 */
 .scroll-banner h1 {
     font-family: 'Bagel Fat One', 'Fredoka', 'Lilita One', cursive, sans-serif;
-    font-size: clamp(3.6rem, 7.6vw, 6.7rem);
+    font-size: clamp(2.8rem, 6.4vw, 5.6rem);
     color: #1a365d;
     font-weight: 900;
     letter-spacing: 2px;
@@ -366,20 +366,20 @@ textarea {
 }
 
 /* ===================================================
-   📄 오른쪽 카드: AI 생성 결과 (물결 스카이블루 프레임)
+   📄 오른쪽 카드: AI 생성 결과 (따뜻한 골든크림 테마 프레임)
    =================================================== */
 .result-card {
     background: #fffdf5;
-    border: 4px solid #6ea0ca;
+    border: 3.5px solid #e5ba68;
     border-radius: 34px;
-    box-shadow: 0 12px 32px rgba(110, 160, 202, 0.22), inset 0 0 0 4px #eef6fb;
+    box-shadow: 0 12px 32px rgba(220, 175, 80, 0.18), inset 0 0 0 4px #fff9e6;
     overflow: hidden;
     position: relative;
     padding-bottom: 25px;
 }
 
 .result-card .card-header-banner {
-    border-bottom: 3px solid #6ea0ca;
+    border-bottom: 3px solid #e5ba68;
     justify-content: space-between;
 }
 
@@ -406,19 +406,19 @@ textarea {
 
 .btn-secondary {
     background-color: #ffffff;
-    color: #1e3a5f;
-    border: 2px solid #6ea0ca;
+    color: #7a5318;
+    border: 2px solid #e5ba68;
     border-radius: 16px;
     padding: 7px 14px;
     font-size: 0.95rem;
     font-weight: 800;
     cursor: pointer;
-    box-shadow: 0 3px 0 #6ea0ca;
+    box-shadow: 0 3px 0 #d4a552;
     transition: all 0.15s ease;
 }
 
 .btn-secondary:hover {
-    background-color: #eef6fb;
+    background-color: #fff9e6;
     transform: translateY(-1px);
 }
 
@@ -464,9 +464,9 @@ textarea {
 .spinner {
     width: 76px;
     height: 76px;
-    border: 8px solid #eef6fb;
-    border-top: 8px solid #fed430;
-    border-right: 8px solid #6ea0ca;
+    border: 8px solid #fff5d6;
+    border-top: 8px solid #ffd000;
+    border-right: 8px solid #e5ba68;
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin: 0 auto 22px auto;
