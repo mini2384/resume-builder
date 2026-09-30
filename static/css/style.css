@@ -622,26 +622,10 @@ textarea {
 }
 
 /* ===================================================
-   🐥 우측 하단 플로팅: 양복 입은 트위티 & 말풍선 위젯
+   🐥 우측 하단 플로팅 위젯 (제거)
    =================================================== */
 .floating-tweety-widget {
-    position: fixed;
-    bottom: 10px;
-    right: 20px;
-    z-index: 9999;
-    pointer-events: none;
-}
-
-.floating-tweety-widget img {
-    width: 320px;
-    height: auto;
-    filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.22));
-}
-
-@media (max-width: 900px) {
-    .floating-tweety-widget img {
-        width: 220px;
-    }
+    display: none !important;
 }
 
 /* ===================================================
