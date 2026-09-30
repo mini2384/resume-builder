@@ -51,43 +51,52 @@ body {
     margin: 0 auto;
 }
 
-/* 왼쪽 화가 트위티 (빨간 베레모 & 팔레트) */
+/* 왼쪽 날아가는 트위티 */
 .tweety-scroll-left {
-    width: 155px;
+    width: 140px;
     height: auto;
-    margin-right: -35px;
+    margin-right: -15px;
     z-index: 3;
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+    animation: tweetyFloatLeft 3.5s ease-in-out infinite alternate;
 }
 
-/* 오른쪽 학사모 트위티 (돋보기 & 학사모) */
+/* 오른쪽 서있는 트위티 */
 .tweety-scroll-right {
-    width: 155px;
+    width: 115px;
     height: auto;
-    margin-left: -35px;
+    margin-left: -15px;
     z-index: 3;
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.12));
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+    animation: tweetyFloatRight 4s ease-in-out infinite alternate;
+}
+
+@keyframes tweetyFloatLeft {
+    0% { transform: translateY(0) rotate(-4deg); }
+    100% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes tweetyFloatRight {
+    0% { transform: translateY(0) rotate(3deg); }
+    100% { transform: translateY(-8px) rotate(-3deg); }
 }
 
 /* ===================================================
-   📜 상단 양피지 두루마리 배너 (Scroll Banner)
-   - 원본 두루마리 일러스트 이미지(투명 배경) 적용
+   🐥 상단 타이틀 배너 (Title Banner)
+   - 두루마리 배경 제거 및 도톰한 3D 볼륨 타이틀 유지
    =================================================== */
 .scroll-banner {
     position: relative;
     z-index: 2;
-    /* 투명 누끼 처리된 양피지 두루마리 이미지 배경 */
-    background: url('../img/scroll_banner.png') no-repeat center center / 100% 100%;
+    background: none;
     border: none;
     border-radius: 0;
     box-shadow: none;
-    /* 두루마리 외곽선을 따라 떨어지는 자연스러운 입체 음영 */
-    filter: drop-shadow(0 12px 25px rgba(120, 80, 25, 0.25));
-    /* 양쪽 두루마리 말림 축 안쪽으로 텍스트 배치 (좌우 패딩 88px) */
-    padding: 26px 88px 24px 88px;
+    filter: none;
+    padding: 10px 15px;
     margin: 0;
-    min-width: 520px;
-    max-width: 820px;
+    min-width: auto;
+    max-width: 900px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -632,5 +641,230 @@ textarea {
 @media (max-width: 900px) {
     .floating-tweety-widget img {
         width: 220px;
+    }
+}
+
+/* ===================================================
+   📲 PWA 앱 바로 설치 바 & 아이폰 전용 안내 모달
+   =================================================== */
+.install-bar {
+    display: flex;
+    justify-content: center;
+    margin: 18px 0 0 0;
+}
+
+.btn-install-app {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #FFE61A 0%, #FFD000 100%);
+    color: #1a365d;
+    font-family: 'Jua', 'Nunito', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 900;
+    padding: 10px 22px;
+    border: 2px solid #C59654;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px rgba(212, 160, 23, 0.35), inset 0 2px 3px rgba(255, 255, 255, 0.8);
+    transition: all 0.25s ease;
+    animation: install-pulse 2.5s infinite;
+}
+
+.btn-install-app:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 20px rgba(212, 160, 23, 0.45);
+    background: linear-gradient(135deg, #FFF04D 0%, #FFD61A 100%);
+}
+
+.btn-install-app:active {
+    transform: translateY(1px);
+}
+
+.btn-install-icon {
+    font-size: 1.25rem;
+}
+
+.btn-install-badge {
+    background: #1a365d;
+    color: #FFE61A;
+    font-size: 0.78rem;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+@keyframes install-pulse {
+    0%, 100% {
+        box-shadow: 0 6px 16px rgba(212, 160, 23, 0.35);
+    }
+    50% {
+        box-shadow: 0 8px 24px rgba(255, 208, 0, 0.65), 0 0 0 4px rgba(255, 230, 26, 0.35);
+    }
+}
+
+/* 🍏 iOS 안내 모달 */
+.ios-install-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100000;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+.ios-modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 28, 48, 0.55);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.ios-modal-box {
+    position: relative;
+    z-index: 2;
+    background: #FFFDF8;
+    width: 100%;
+    max-width: 480px;
+    border-radius: 24px 24px 0 0;
+    border: 2.5px solid #C59654;
+    border-bottom: none;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.25);
+    padding: 22px 20px 28px 20px;
+    animation: slide-up 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slide-up {
+    from {
+        transform: translateY(100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+.ios-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1.5px dashed #E5C38E;
+    padding-bottom: 14px;
+    margin-bottom: 16px;
+}
+
+.ios-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ios-modal-app-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.ios-header-left h4 {
+    font-size: 1.1rem;
+    color: #1a365d;
+    margin-bottom: 2px;
+}
+
+.ios-header-left p {
+    font-size: 0.82rem;
+    color: #64748b;
+    font-weight: 700;
+}
+
+.ios-modal-close {
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    line-height: 1;
+    color: #475569;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ios-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ios-step-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #FAF5E8;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1.5px solid #EBD5B0;
+}
+
+.ios-step-badge {
+    background: #FFE61A;
+    color: #1a365d;
+    font-weight: 900;
+    font-size: 0.9rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 1.5px solid #C59654;
+}
+
+.ios-step-text {
+    font-size: 0.92rem;
+    color: #2b221a;
+    line-height: 1.45;
+}
+
+.ios-step-text strong {
+    color: #0f2b46;
+}
+
+.ios-icon-share {
+    display: inline-flex;
+    vertical-align: middle;
+    color: #007aff;
+    background: #e1f0ff;
+    padding: 2px 5px;
+    border-radius: 6px;
+    margin: 0 3px;
+}
+
+.ios-hint-bounce {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: #0284c7;
+    font-weight: 800;
+    animation: bounce-y 1.4s infinite;
+}
+
+@keyframes bounce-y {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(4px);
     }
 }

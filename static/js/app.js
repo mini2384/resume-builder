@@ -165,4 +165,91 @@ document.addEventListener("DOMContentLoaded", () => {
         errorMessage.style.display = "none";
         errorMessage.textContent = "";
     }
+
+    // ===================================================
+    // 📲 PWA 앱 바로 설치 및 아이폰(iOS) 안내 모달 제어
+    // ===================================================
+    const installBar = document.getElementById("installBar");
+    const btnInstallApp = document.getElementById("btnInstallApp");
+    const iosInstallModal = document.getElementById("iosInstallModal");
+    const iosModalClose = document.getElementById("iosModalClose");
+    const iosModalBackdrop = document.getElementById("iosModalBackdrop");
+
+    let deferredPrompt = null;
+
+    // 1. 이미 홈 화면에 설치된 앱(Standalone) 모드인지 감지
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+                         window.navigator.standalone === true;
+
+    // 2. iOS 디바이스(iPhone, iPad, iPod) 여부 감지
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isIos = /iphone|ipad|ipod/.test(userAgent) || 
+                  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    if (isStandalone) {
+        // 이미 앱으로 실행 중이면 설치 버튼 숨김
+        if (installBar) installBar.style.display = "none";
+    } else {
+        // 웹 브라우저에서 실행 중인 경우
+        if (installBar) {
+            installBar.style.display = "flex";
+        }
+    }
+
+    // Chrome/Android 네이티브 설치 프롬프트 이벤트 리스너
+    window.addEventListener("beforeinstallprompt", (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        if (installBar && !isStandalone) {
+            installBar.style.display = "flex";
+        }
+    });
+
+    // 앱 설치 완료 시 버튼 숨기기
+    window.addEventListener("appinstalled", () => {
+        if (installBar) installBar.style.display = "none";
+        deferredPrompt = null;
+    });
+
+    // 설치 버튼 클릭 이벤트
+    if (btnInstallApp) {
+        btnInstallApp.addEventListener("click", async () => {
+            if (isIos) {
+                // 아이폰인 경우: iOS 전용 하단 안내 모달 표시
+                openIosModal();
+            } else if (deferredPrompt) {
+                // 안드로이드/데스크톱 크롬 등 네이티브 프롬프트 지원 브라우저
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === "accepted") {
+                    if (installBar) installBar.style.display = "none";
+                }
+                deferredPrompt = null;
+            } else {
+                // 그 외 브라우저: 모달 가이드 표시
+                openIosModal();
+            }
+        });
+    }
+
+    function openIosModal() {
+        if (iosInstallModal) {
+            iosInstallModal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // 스크롤 잠금
+        }
+    }
+
+    function closeIosModal() {
+        if (iosInstallModal) {
+            iosInstallModal.style.display = "none";
+            document.body.style.overflow = ""; // 스크롤 잠금 해제
+        }
+    }
+
+    if (iosModalClose) {
+        iosModalClose.addEventListener("click", closeIosModal);
+    }
+    if (iosModalBackdrop) {
+        iosModalBackdrop.addEventListener("click", closeIosModal);
+    }
 });

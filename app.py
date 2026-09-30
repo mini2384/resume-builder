@@ -1,4 +1,5 @@
 import os
+import json
 import logging
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
@@ -94,6 +95,78 @@ def build_prompt(name, job_title, experience, projects, tone, prompt_type):
 {experience}
 - 수행 프로젝트:
 {projects}
+"""
+    return prompt.strip()
+
+
+def build_benchmark_prompt(name, job_title, experience, projects):
+    """지원자 정보와 유사 연차/직무 합격자들의 벤치마크 데이터를 비교 분석하기 위한 프롬프트입니다."""
+    prompt = f"""
+당신은 대한민국 최고 수준의 채용 데이터 분석가이자 테크/비즈니스 전문 커리어 컨설턴트입니다.
+제공된 지원자의 직무, 경력, 프로젝트 정보를 분석하여, 동일/유사 연차의 경쟁 지원자들의 취업 트렌드 및 역량 갭(Gap) 분석 결과를 아래 지정된 JSON 포맷으로 작성해 주세요.
+반드시 마크다운 코드블록(```json ... ```) 또는 유효한 순수 JSON으로만 응답해야 하며, 다른 서술은 포함하지 마세요.
+
+[지원자 정보]
+- 이름: {name}
+- 지원 직무: {job_title}
+- 경력 사항:
+{experience}
+- 수행 프로젝트:
+{projects}
+
+[필수 JSON 응답 스키마]
+{{
+  "match_score": 78,
+  "match_grade": "A-",
+  "summary": "지원자의 현재 경쟁력에 대한 명확하고 직관적인 총평 한두 줄 요약",
+  "target_trends": {{
+    "popular_roles": [
+      {{
+        "role": "주요 지원 직종명 (예: 주니어 백엔드 엔지니어)",
+        "match": "높음/보통/유관",
+        "description": "유사 스펙의 지원자들이 이 직종을 많이 지원하는 이유 및 연관성"
+      }}
+    ],
+    "target_companies": [
+      {{
+        "type": "기업군 (예: 대기업/빅테크, 금융IT/핀테크, 유니콘 스타트업 등)",
+        "examples": ["대표 기업1", "대표 기업2", "대표 기업3"],
+        "trend": "해당 기업군이 선호하는 최신 채용 트렌드 및 기술 요구사항"
+      }}
+    ]
+  }},
+  "certificates_analysis": {{
+    "description": "동일 연차 합격자들의 주요 자격증 보유율 및 시장 선호도 분석",
+    "items": [
+      {{
+        "name": "자격증 명칭 (예: 정보처리기사, AWS SAA, SQLD 등)",
+        "held": true,
+        "importance": "필수 / 강력 우대 / 추천",
+        "market_share": "70%",
+        "comment": "지원자가 이미 갖추었는지(held: true) 또는 미보유 상태여서 취득이 추천되는지(held: false)에 대한 명확한 코멘트"
+      }}
+    ]
+  }},
+  "experiences_analysis": {{
+    "description": "합격자들이 공통적으로 내세우는 핵심 실무 경험 벤치마크",
+    "items": [
+      {{
+        "title": "실무 경험 및 핵심 역량명 (예: 대용량 트래픽 캐싱/최적화, CI/CD 배포 자동화, 테스트 코드 작성 등)",
+        "held": true,
+        "gap_status": "보유 (강점) 또는 보완 필요",
+        "detail": "지원자의 이력/프로젝트에서 증명되었는지 여부와 부족한 점 보완 가이드"
+      }}
+    ]
+  }},
+  "action_plan": [
+    {{
+      "step": 1,
+      "category": "추천 자격증 / 프로젝트 보완 / 서류 작성 팁",
+      "target": "핵심 목표 항목",
+      "action": "합격 확률을 높이기 위한 구체적인 액션 가이드"
+    }}
+  ]
+}}
 """
     return prompt.strip()
 
@@ -200,6 +273,98 @@ def generate():
     except Exception as e:
         logger.exception(f"[서버 내부 오류] 예상치 못한 에러가 발생했습니다: {e}")
         return jsonify({"error": f"AI 문서 생성 중 서버 오류가 발생했습니다: {str(e)}"}), 500
+
+
+@app.route("/benchmark", methods=["POST"])
+def benchmark():
+    """지원자 경력과 유사한 구직자들의 지원 트렌드, 공통 자격증/경험 및 갭(Gap) 분석을 수행합니다."""
+    data = request.get_json()
+
+    if not data:
+        logger.warning("[벤치마크 거부] JSON 요청 데이터가 없습니다.")
+        return jsonify({"error": "분석할 데이터가 전송되지 않았습니다."}), 400
+
+    name = data.get("name", "지원자").strip() or "지원자"
+    job_title = data.get("job_title", "").strip()
+    experience = data.get("experience", "").strip()
+    projects = data.get("projects", "").strip()
+
+    logger.info(f"[벤치마크 요청] 지원자: {name} | 직무: {job_title}")
+
+    # 필수 필드 검증
+    missing_fields = []
+    if not job_title:
+        missing_fields.append("지원 직무")
+    if not experience:
+        missing_fields.append("경력 사항")
+    if not projects:
+        missing_fields.append("프로젝트")
+
+    if missing_fields:
+        error_msg = f"벤치마크 분석을 위해 다음 항목을 입력해 주세요: {', '.join(missing_fields)}"
+        return jsonify({"error": error_msg}), 400
+
+    try:
+        client = get_gemini_client()
+        prompt = build_benchmark_prompt(name, job_title, experience, projects)
+
+        logger.info("[Gemini 벤치마크 분석 중...] 프롬프트를 전송합니다.")
+
+        # 최신 초경량 Gemini 모델 호출 (fallback 포함)
+        model_name = "gemini-3.5-flash-lite"
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt
+            )
+        except Exception as model_err:
+            logger.warning(f"[{model_name} 호출 실패, gemini-3.8-flash로 재시도]: {model_err}")
+            response = client.models.generate_content(
+                model="gemini-3.8-flash",
+                contents=prompt
+            )
+
+        raw_text = response.text
+        if not raw_text:
+            raise ValueError("Gemini API로부터 빈 응답을 받았습니다.")
+
+        # JSON 마크다운 코드블록 정리 및 파싱
+        clean_text = raw_text.strip()
+        if clean_text.startswith("```"):
+            lines = clean_text.splitlines()
+            # 첫 번째 줄(``` 또는 ```json)과 마지막 줄(```) 제거
+            start_idx = 1
+            end_idx = len(lines) - 1 if lines[-1].strip().startswith("```") else len(lines)
+            clean_text = "\n".join(lines[start_idx:end_idx]).strip()
+
+        try:
+            benchmark_data = json.loads(clean_text)
+        except json.JSONDecodeError as json_err:
+            logger.warning(f"[JSON 파싱 1차 실패, 본문에서 JSON 블록 탐색]: {json_err}")
+            first_brace = clean_text.find("{")
+            last_brace = clean_text.rfind("}")
+            if first_brace != -1 and last_brace != -1 and last_brace > first_brace:
+                benchmark_data = json.loads(clean_text[first_brace:last_brace+1])
+            else:
+                raise ValueError("AI가 반환한 데이터를 JSON으로 변환할 수 없습니다.")
+
+        logger.info(f"[벤치마크 완료] {name} 님의 역량 갭 분석 완료 (매칭 점수: {benchmark_data.get('match_score', 'N/A')})")
+        return jsonify({
+            "success": True,
+            "benchmark": benchmark_data
+        })
+
+    except ValueError as val_err:
+        logger.error(f"[설정/데이터 오류] {val_err}")
+        return jsonify({"error": str(val_err)}), 400
+
+    except errors.APIError as api_err:
+        logger.error(f"[Gemini API 오류] {api_err}")
+        return jsonify({"error": f"Google Gemini API 연동 중 오류가 발생했습니다: {api_err.message}"}), 502
+
+    except Exception as e:
+        logger.exception(f"[서버 내부 오류] 벤치마크 분석 중 에러: {e}")
+        return jsonify({"error": f"역량 벤치마크 분석 중 서버 오류가 발생했습니다: {str(e)}"}), 500
 
 
 if __name__ == "__main__":
