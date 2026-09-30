@@ -61,14 +61,9 @@ body {
     animation: tweetyFloatLeft 3.5s ease-in-out infinite alternate;
 }
 
-/* 오른쪽 서있는 트위티 */
+/* 오른쪽 서있는 트위티 (제거) */
 .tweety-scroll-right {
-    width: 115px;
-    height: auto;
-    margin-left: -15px;
-    z-index: 3;
-    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
-    animation: tweetyFloatRight 4s ease-in-out infinite alternate;
+    display: none !important;
 }
 
 @keyframes tweetyFloatLeft {
@@ -76,14 +71,9 @@ body {
     100% { transform: translateY(-10px) rotate(2deg); }
 }
 
-@keyframes tweetyFloatRight {
-    0% { transform: translateY(0) rotate(3deg); }
-    100% { transform: translateY(-8px) rotate(-3deg); }
-}
-
 /* ===================================================
    🐥 상단 타이틀 배너 (Title Banner)
-   - 두루마리 배경 제거 및 도톰한 3D 볼륨 타이틀 유지
+   - 2배 확대 단색 타이틀 (입체감 제거)
    =================================================== */
 .scroll-banner {
     position: relative;
@@ -102,42 +92,24 @@ body {
     justify-content: center;
 }
 
-/* 기존 CSS 모조 말림 축 제거 (이미지 자체에 정밀 포함됨) */
+/* 기존 CSS 모조 말림 축 제거 */
 .scroll-banner::before,
 .scroll-banner::after {
     display: none;
 }
 
-/* 3D 통통 볼륨 타이틀 (레퍼런스 이미지 정밀 일치) */
+/* 2배 확대 깔끔한 단색 타이틀 */
 .scroll-banner h1 {
     font-family: 'Bagel Fat One', 'Fredoka', 'Lilita One', cursive, sans-serif;
-    font-size: clamp(1.8rem, 3.8vw, 3.35rem);
-    color: #FFE61A;
+    font-size: clamp(3.6rem, 7.6vw, 6.7rem);
+    color: #1a365d;
     font-weight: 900;
-    letter-spacing: 1.8px;
+    letter-spacing: 2px;
     margin: 0;
     display: inline-block;
     white-space: nowrap;
-    line-height: 1.25;
-    /* 노란 볼륨 글자 + 네이비 외곽선 + 하단 3D 음영 + 바닥 그림자 */
-    text-shadow: 
-        /* 상단 림 라이트 */
-        0 -2px 0 #FFF9AF,
-        /* 전방향 네이비 스트로크 */
-        -2px -2px 0 #153258,
-         2px -2px 0 #153258,
-        -2px  2px 0 #153258,
-         2px  2px 0 #153258,
-        -3px  0px 0 #153258,
-         3px  0px 0 #153258,
-         0px -3px 0 #153258,
-         0px  3px 0 #153258,
-        /* 하단 3D 입체 돌출 */
-         0px  5px 0 #1C4576,
-         0px  8px 0 #15345B,
-         0px 10px 0 #0E2440,
-        /* 양피지 위에 떨어지는 깊은 그림자 */
-         0px 15px 18px rgba(14, 36, 64, 0.32);
+    line-height: 1.15;
+    text-shadow: none;
 }
 
 /* 부제목 */
